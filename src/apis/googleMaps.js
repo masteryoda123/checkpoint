@@ -1,28 +1,33 @@
 var request = require('request-promise');
 
 var KEY = 'AIzaSyA5HRWlQ-DMlqEwPsUtvFpe_9OsbHVhnvI';
-var BASE_URL = 'https://maps.googleapis.com/maps/api/directions/json';
+var BASE_URL = 'https://maps.googleapis.com/maps/api/';
 
-var options = {
-    uri: BASE_URL,
-    json: true
-};
+/**
+ * Documentation:
+ * {@link https://developers.google.com/maps/documentation/directions/intro}
+ *
+ * @param input the input containing params for directions API.
+ * should contain 'origin' and 'destination', at the very least
+ *
+ * @returns directions object (refer to doc)
+ */
+function getDirections(input) {
+    var uri = BASE_URL + 'directions/json';
+    var options = {
+        uri: uri,
+        json: true
+    };
 
-function getDirections(origin, destination) {
-    var params = {
-        origin: origin,
-        destination: destination,
+    options.qs = {
+        origin: input.origin,
+        destination: input.destination,
         key: KEY
     };
-    options.qs = params;
 
     return request(options);
-        // .then(function(res) {
-        //     console.log(JSON.stringify(res));
-        // }).catch(function(err) {
-        //     console.log(err);
-        // });
 }
+
 
 module.exports = {
     getDirections: getDirections

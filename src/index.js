@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 
-var routes = require('./routes/index');
+var routes = require('./routes');
 
 var app = express();
 var portNum = process.env.PORT || 8080;
@@ -20,16 +20,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // cookie parser
 app.use(cookieParser());
 
-// TODO: Session timeout
-app.use(session({
-    secret: 'secret',
-    saveUnitialized: true,
-    resave: true
-}));
+// app.use(session({
+//     secret: 'secret',
+//     saveUnitialized: true,
+//     resave: true
+// }));
 
 // PASSPORT
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Flash
 app.use(flash());
