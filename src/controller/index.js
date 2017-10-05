@@ -13,6 +13,10 @@ var INPUT_PARAMS_TO_API_CALL = {
     directions: gmApi.getDirections
 };
 
+/**
+ * This is a list of mappers that map from API responses
+ * to time taken.
+ */
 var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
     directions: gmProcessor.getTotalTimeFromDirections
 };
@@ -46,7 +50,7 @@ function mapApiResponses(data, paramToIndex, keys) {
         paramToTotalTime[key] = mapper(apiResponse);
     });
     return paramToTotalTime;
-};
+}
 
 
 module.exports = {

@@ -8,8 +8,6 @@ function run(paramToTotalTime) {
         return runningSum + paramToTotalTime[key];
     }, 0);
 
-    console.log('totalTime');
-    console.log(totalTime);
     return totalTime;
 }
 
