@@ -4,13 +4,19 @@ var KEY = 'AIzaSyA5HRWlQ-DMlqEwPsUtvFpe_9OsbHVhnvI';
 var BASE_URL = 'https://maps.googleapis.com/maps/api/';
 
 /**
+ * @typedef {Object} Direction
+ * @property {string} origin - origin address
+ * @property {string} destination - destination address
+ */
+
+/**
  * Documentation:
  * {@link https://developers.google.com/maps/documentation/directions/intro}
  *
- * @param input the input containing params for directions API.
- * should contain 'origin' and 'destination', at the very least
+ * @param {Direction} input the input containing params for directions API.
+ *        should contain 'origin' and 'destination', at the very least
  *
- * @returns directions object (refer to doc)
+ * @returns {Promise} promise containing direction response
  */
 function getDirections(input) {
     var uri = BASE_URL + 'directions/json';

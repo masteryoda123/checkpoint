@@ -2,6 +2,8 @@ var q = require('q');
 
 var engine = require('../estimationEngine');
 
+var flightAwareApi = require('../apis/flightAware');
+var flightAwareProcessor = require('./../apis/flightAwareProcessor');
 var gmApi = require('../apis/googleMaps');
 var gmProcessor = require('./../apis/googleMapsProcessor');
 
@@ -21,7 +23,15 @@ var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
     directions: gmProcessor.getTotalTimeFromDirections
 };
 
-
+/**
+ * Uses FlightAware API to get flight details, given a flight number
+ * @param {FlightNumber} flightNumber
+ */
+function getFlight(flightNumber) {
+    return flightAwareApi.getFlightInfo(flightNumber).then(function(flightInfoResponse) {
+        return flightAwareProcessor.getFlightInfo(tflightInfoResponse);
+    });
+}
 
 function process(input) {
     var promises = [];
@@ -54,5 +64,6 @@ function mapApiResponses(data, paramToIndex, keys) {
 
 
 module.exports = {
-    process: process
+    process: process,
+    getFlight: getFlight
 };
