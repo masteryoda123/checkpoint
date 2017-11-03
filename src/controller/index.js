@@ -1,7 +1,7 @@
 var q = require('q');
 
 var engine = require('../estimationEngine');
-
+var wApi = require('../apis/weatherUnderground');
 var gmApi = require('../apis/googleMaps');
 var gmProcessor = require('./../apis/googleMapsProcessor');
 
@@ -21,6 +21,12 @@ var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
     directions: gmProcessor.getTotalTimeFromDirections
 };
 
+function testWeather() {
+    return wApi.getWeather().then(function(result) {
+        console.log(result);
+        return result;
+    });
+}
 
 
 function process(input) {
@@ -54,5 +60,6 @@ function mapApiResponses(data, paramToIndex, keys) {
 
 
 module.exports = {
-    process: process
+    process: process,
+    testWeather: testWeather
 };

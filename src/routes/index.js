@@ -13,6 +13,12 @@ router.get('/test', function(req, res) {
     res.send('Test success!');
 });
 
+router.get('/weather', function(req, res) {
+    controller.testWeather().then(function(result) {
+        res.send(result);
+    });
+});
+
 router.get('/maps', function(req, res) {
     var input = {
         directions: {
