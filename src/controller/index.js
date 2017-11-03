@@ -1,7 +1,12 @@
 var q = require('q');
 
 var engine = require('../estimationEngine');
+
 var wApi = require('../apis/weatherUnderground');
+
+var flightAwareApi = require('../apis/flightAware');
+var flightAwareProcessor = require('./../apis/flightAwareProcessor');
+
 var gmApi = require('../apis/googleMaps');
 var gmProcessor = require('./../apis/googleMapsProcessor');
 
@@ -25,6 +30,16 @@ function testWeather() {
     return wApi.getWeather().then(function(result) {
         console.log(result);
         return result;
+    });
+}
+
+/**
+ * Uses FlightAware API to get flight details, given a flight number
+ * @param {FlightNumber} flightNumber
+ */
+function getFlight(flightNumber) {
+    return flightAwareApi.getFlightInfo(flightNumber).then(function(flightInfoResponse) {
+        return flightAwareProcessor.getFlightInfo(tflightInfoResponse);
     });
 }
 
@@ -61,5 +76,6 @@ function mapApiResponses(data, paramToIndex, keys) {
 
 module.exports = {
     process: process,
-    testWeather: testWeather
+    testWeather: testWeather,
+    getFlight: getFlight
 };
