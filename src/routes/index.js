@@ -13,6 +13,21 @@ router.get('/test', function(req, res) {
     res.send('Test success!');
 });
 
+router.get('/flight', function(req, res) {
+    var flightNumber = {
+        flightNumber: 'DL2611'
+    };
+
+    controller.getFlight(flightNumber).then(function(flight) {
+        res.status(HttpStatus.OK);
+        res.send(flight);
+    }).catch(function(err) {
+        console.log(err);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        res.send('Server error: ' + err);
+    });
+});
+
 router.get('/maps', function(req, res) {
     var input = {
         directions: {
@@ -28,7 +43,7 @@ router.get('/maps', function(req, res) {
     }).catch(function(err) {
         console.log(err);
         res.status(HttpStatus.INTERNAL_SERVER_ERROR);
-        res.send('Server error');
+        res.send('Server error: ' + err);
     });
 });
 
