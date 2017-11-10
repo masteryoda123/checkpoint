@@ -2,6 +2,8 @@ var express = require('express');
 var HttpStatus = require('http-status-codes');
 
 var controller = require('../controller');
+var wt = require('./../apis/checkpointWaitTimes.js');
+var wtp = require('./../apis/checkpointWaitTimesProcessor.js');
 
 var router = express.Router();
 
@@ -10,7 +12,20 @@ router.get('/', function(req, res) {
 });
 
 router.get('/test', function(req, res) {
-    res.send('Test success!');
+  res.send("Test Successful");
+});
+
+router.get('/checkpoint_wait_time', function(req, res) {
+    var airport = 'ATL';
+
+    wt.getCheckpointWaitTimes(airport).then(waitTimes => {
+        res.send("wait time is: " + wtp.getCheckpointWaitTime(waitTimes).toPrecision(2) + " minutes for " + airport);
+    }).catch(err => {
+        console.log(err);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        res.send("Server error: " + err);
+    });
+
 });
 
 router.get('/flight', function(req, res) {
