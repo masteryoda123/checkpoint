@@ -6,13 +6,16 @@ var flightAwareApi = require('../apis/flightAware');
 var flightAwareProcessor = require('./../apis/flightAwareProcessor');
 var gmApi = require('../apis/googleMaps');
 var gmProcessor = require('./../apis/googleMapsProcessor');
+var wtApi = require('./../apis/checkpointWaitTimes.js');
+var wtProcessor = require('./../apis/checkpointWaitTimesProcessor.js');
 
 /**
  * This is a mapping between input param
  * to the reference of function handler
  */
 var INPUT_PARAMS_TO_API_CALL = {
-    directions: gmApi.getDirections
+    directions: gmApi.getDirections, 
+
 };
 
 /**

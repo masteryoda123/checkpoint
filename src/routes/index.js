@@ -4,6 +4,7 @@ var HttpStatus = require('http-status-codes');
 var controller = require('../controller');
 var wt = require('./../apis/checkpointWaitTimes.js');
 var wtp = require('./../apis/checkpointWaitTimesProcessor.js');
+var estimationEngine = require('./../estimationEngine/index.js');
 
 var router = express.Router();
 
@@ -26,6 +27,11 @@ router.get('/checkpoint_wait_time', function(req, res) {
         res.send("Server error: " + err);
     });
 
+});
+
+router.get('/est', function(req, res) {
+  var someTime = 1509553404000;
+  res.send(estimationEngine.formatOutput(someTime));
 });
 
 router.get('/flight', function(req, res) {

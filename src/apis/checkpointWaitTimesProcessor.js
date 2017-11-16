@@ -58,7 +58,7 @@ function getCheckpointWaitTime(waitTimeResponses) {
     });
 
     return checkpointWaitTimesArray.reduce((sum, nextEntry) => {
-        console.log("sum is: " + sum);
+        // console.log("sum is: " + sum);
         return sum + (nextEntry * 10);
     }) / checkpointWaitTimesArray.length;
 }

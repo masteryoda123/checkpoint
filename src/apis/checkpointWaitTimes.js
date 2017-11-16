@@ -1,6 +1,7 @@
 var request = require('request-promise');
 
 var BASE_URL = 'http://airports.whatsbusy.com/service/';
+var defaultValueForCheckpointWaitTimes = 30;
 
 function getCheckpointWaitTimes(airport) {
     var todaysDate = new Date();
@@ -20,6 +21,8 @@ function getCheckpointWaitTimes(airport) {
             waitTimeResponseArray.push(yearEntries);
             return waitTimeResponseArray;
         });
+    }).catch(err => {
+      return defaultValueForCheckpointWaitTimes; 
     });
 
 }
