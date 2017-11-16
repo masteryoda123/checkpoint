@@ -34,6 +34,12 @@ router.get('/est', function(req, res) {
   res.send(estimationEngine.formatOutput(someTime));
 });
 
+router.get('/weather', function(req, res) {
+    controller.testWeather().then(function(result) {
+        res.send(result);
+    });
+});
+
 router.get('/flight', function(req, res) {
     var flightNumber = {
         flightNumber: 'DL2611'

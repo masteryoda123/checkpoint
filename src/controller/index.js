@@ -2,8 +2,12 @@ var q = require('q');
 
 var engine = require('../estimationEngine');
 
+var wApi = require('../apis/weatherUnderground');
+var wProcessor = require('../apis/weatherUndergroundProcessor');
+
 var flightAwareApi = require('../apis/flightAware');
 var flightAwareProcessor = require('./../apis/flightAwareProcessor');
+
 var gmApi = require('../apis/googleMaps');
 var gmProcessor = require('./../apis/googleMapsProcessor');
 var wtApi = require('./../apis/checkpointWaitTimes.js');
@@ -14,8 +18,8 @@ var wtProcessor = require('./../apis/checkpointWaitTimesProcessor.js');
  * to the reference of function handler
  */
 var INPUT_PARAMS_TO_API_CALL = {
-    directions: gmApi.getDirections, 
-
+    directions: gmApi.getDirections,
+    weather: wApi.getWeather
 };
 
 /**
@@ -23,8 +27,19 @@ var INPUT_PARAMS_TO_API_CALL = {
  * to time taken.
  */
 var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
-    directions: gmProcessor.getTotalTimeFromDirections
+    directions: gmProcessor.getTotalTimeFromDirections,
+    weather: wProcessor.calcWeatherDelays
 };
+
+/**
+ * Uses WeatherUnderground API to receive the next 36 hours
+ * of weather data at Atlanta airport.
+ */
+function testWeather() {
+    return wApi.getWeather().then(function(result) {
+        return result;
+    });
+}
 
 /**
  * Uses FlightAware API to get flight details, given a flight number
@@ -35,6 +50,7 @@ function getFlight(flightNumber) {
         return flightAwareProcessor.getFlightInfo(tflightInfoResponse);
     });
 }
+
 
 function process(input) {
     var promises = [];
@@ -68,5 +84,6 @@ function mapApiResponses(data, paramToIndex, keys) {
 
 module.exports = {
     process: process,
+    testWeather: testWeather,
     getFlight: getFlight
 };
