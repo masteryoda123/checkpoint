@@ -67,10 +67,7 @@ function process(input) {
 function caltonPu(input) {
     return getFlight(input).then(flight => {
         input.weather.airportCode = flight.origin.code;
-        input.weather.time = flight.filed_blockout_time.epoch;
-        console.log("flight code: " + flight.origin.code);
-        console.log("flight blockout time: " + flight.filed_blockout_time);
-        console.log("flight blockout epoch: " + flight.filed_blockout_time.epoch);
+        input.weather.time = flight.estimated_departure_time.epoch;
         return process(input);
     });
 }
