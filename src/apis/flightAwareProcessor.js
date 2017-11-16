@@ -13,6 +13,7 @@ var _ = require('lodash');
  * @property {number} filed_departure_time.epoch - scheduled departure time (epoch)
  * @property {number} estimated_departure_time.epoch - estimated departure time (epoch)
  * @property {number} estimated_blockout_time.epoch - estimated time the plane will leave the gate (epoch)
+ * @property {number} filed_blockout_time.epoch - scheduled departure time from gate (epoch)
  */
 
 /**
@@ -38,7 +39,7 @@ function getFlightInfo(flightInfoResponse) {
 
     /** @type {Flight} */
     var flight = flightInfoResponse.FlightInfoStatusResult.flights[0];
-    return flight.estimated_blockout_time.epoch;
+    return flight;
 }
 
 module.exports = {

@@ -10,6 +10,7 @@ var flightAwareProcessor = require('./../apis/flightAwareProcessor');
 
 var gmApi = require('../apis/googleMaps');
 var gmProcessor = require('./../apis/googleMapsProcessor');
+
 var wtApi = require('./../apis/checkpointWaitTimes.js');
 var wtProcessor = require('./../apis/checkpointWaitTimesProcessor.js');
 
@@ -19,7 +20,8 @@ var wtProcessor = require('./../apis/checkpointWaitTimesProcessor.js');
  */
 var INPUT_PARAMS_TO_API_CALL = {
     directions: gmApi.getDirections,
-    weather: wApi.getWeather
+    weather: wApi.getWeather, 
+    waitTimes: wtApi.getCheckpointWaitTimes
 };
 
 /**
@@ -28,18 +30,10 @@ var INPUT_PARAMS_TO_API_CALL = {
  */
 var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
     directions: gmProcessor.getTotalTimeFromDirections,
-    weather: wProcessor.calcWeatherDelays
+    weather: wProcessor.calcWeatherDelays, 
+    waitTime: wtProcessor.getCheckpointWaitTime
 };
 
-/**
- * Uses WeatherUnderground API to receive the next 36 hours
- * of weather data at Atlanta airport.
- */
-function testWeather() {
-    return wApi.getWeather().then(function(result) {
-        return result;
-    });
-}
 
 /**
  * Uses FlightAware API to get flight details, given a flight number
@@ -47,7 +41,7 @@ function testWeather() {
  */
 function getFlight(flightNumber) {
     return flightAwareApi.getFlightInfo(flightNumber).then(function(flightInfoResponse) {
-        return flightAwareProcessor.getFlightInfo(tflightInfoResponse);
+        return flightAwareProcessor.getFlightInfo(flightInfoResponse);
     });
 }
 
@@ -70,13 +64,24 @@ function process(input) {
     });
 }
 
+function caltonPu(input) {
+    return getFlight(input).then(flight => {
+        input.weather.airportCode = flight.origin.code;
+        input.weather.time = flight.filed_blockout_time.epoch;
+        console.log("flight code: " + flight.origin.code);
+        console.log("flight blockout time: " + flight.filed_blockout_time);
+        console.log("flight blockout epoch: " + flight.filed_blockout_time.epoch);
+        return process(input);
+    });
+}
+
 function mapApiResponses(data, paramToIndex, keys) {
     var paramToTotalTime = {};
     keys.forEach(function(key) {
         var mapper = API_RESULT_TO_TRAVEL_TIME_MAPPERS[key];
         var dataIndex = paramToIndex[key];
         var apiResponse = data[dataIndex];
-        paramToTotalTime[key] = mapper(apiResponse);
+        paramToTotalTime[key] = mapper(apiResponse); 
     });
     return paramToTotalTime;
 }
@@ -84,6 +89,6 @@ function mapApiResponses(data, paramToIndex, keys) {
 
 module.exports = {
     process: process,
-    testWeather: testWeather,
-    getFlight: getFlight
+    getFlight: getFlight, 
+    caltonPu: caltonPu
 };

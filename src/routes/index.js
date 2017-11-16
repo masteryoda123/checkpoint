@@ -29,15 +29,36 @@ router.get('/checkpoint_wait_time', function(req, res) {
 
 });
 
+router.get('/calton', (req, res) => {
+    var input = {
+        directions: {
+            origin: '120 North Ave NW, Atlanta, GA',
+            destination: '6000 N Terminal Pkwy, Atlanta, GA'
+        }, 
+        weather: {
+          airportCode: "ATL", 
+          time: 1509553404000
+        }, 
+        flightNumber: 'DL1580'
+    };
+    controller.caltonPu(input).then(time => {
+        res.send('LEAVE AT: ' + time);
+    }).catch(err => {
+        console.log(err);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        res.send("Server erro: " + err);
+    });
+});
+
 router.get('/est', function(req, res) {
   var someTime = 1509553404000;
   res.send(estimationEngine.formatOutput(someTime));
 });
 
 router.get('/weather', function(req, res) {
-    controller.testWeather().then(function(result) {
-        res.send(result);
-    });
+    //controller.testWeather().then(function(result) {
+        res.send('test for weather');
+    //});
 });
 
 router.get('/flight', function(req, res) {
