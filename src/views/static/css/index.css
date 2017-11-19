@@ -1,0 +1,21 @@
+.top-bottom-margin-sm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.width-md {
+    width: 400px;
+}
+
+.width-sm {
+    width: 200px;
+}
+
+.width-xs {
+    width: 100px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
