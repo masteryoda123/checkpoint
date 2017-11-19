@@ -39,15 +39,27 @@ router.get('/calton', (req, res) => {
           airportCode: "ATL", 
           time: 1509553404000
         }, 
-        flightNumber: 'DL1580'
+        waitTimes: "ATL",
     };
-    controller.caltonPu(input).then(time => {
-        res.send('LEAVE AT: ' + time);
-    }).catch(err => {
-        console.log(err);
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR);
-        res.send("Server erro: " + err);
+
+    var flightNumber = 'DL1580';
+
+
+    controller.getFlight(flightNumber).then(function(flight) {
+        input.weather.airportCode = flight.origin.code.slice(1)  ;
+        input.weather.time = flight.estimated_departure_time.epoch;
+        input.waitTimes = flight.origin.code.slice(1);
+        console.log("ORIGIN CODE: " + flight.origin);
+        controller.process(input, flight).then(function(timeToLeave) {
+            res.status(HttpStatus.OK);
+            res.send("YOU SHOULD LEAVE AT: " + timeToLeave);
+        }).catch(function(err) {
+            console.log(err);
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            res.send("Server erro: " + err);
+        });
     });
+
 });
 
 router.get('/est', function(req, res) {

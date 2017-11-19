@@ -44,6 +44,11 @@ var _ = require('lodash');
  * @returns {number} the wait time indicated by the response
  */
 function getCheckpointWaitTime(waitTimeResponses) {
+
+    if (waitTimeResponses == null) {
+        console.log("RETURNING 30 MINUTES FOR WAIT TIMES BECAUSE RESPONSE WAS NULL");
+        return 30;
+    }
     /** @type {number[]} */
     var checkpointWaitTimesArray = [];
     waitTimeResponses[0].checkpoints.forEach(checkpointInCheckpoints => {

@@ -31,7 +31,7 @@ var INPUT_PARAMS_TO_API_CALL = {
 var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
     directions: gmProcessor.getTotalTimeFromDirections,
     weather: wProcessor.calcWeatherDelays, 
-    waitTime: wtProcessor.getCheckpointWaitTime
+    waitTimes: wtProcessor.getCheckpointWaitTime
 };
 
 
@@ -46,7 +46,7 @@ function getFlight(flightNumber) {
 }
 
 
-function process(input) {
+function process(input, flight) {
     var promises = [];
     var paramToIndex = {};
     var keys = Object.keys(input);
@@ -58,17 +58,9 @@ function process(input) {
 
     return q.all(promises).then(function(data) {
         var paramToTotalTime = mapApiResponses(data, paramToIndex, keys);
-        return engine.run(paramToTotalTime);
+        return engine.run(paramToTotalTime, flight);
     }).catch(function(err) {
         throw err;
-    });
-}
-
-function caltonPu(input) {
-    return getFlight(input).then(flight => {
-        input.weather.airportCode = flight.origin.code;
-        input.weather.time = flight.estimated_departure_time.epoch;
-        return process(input);
     });
 }
 
@@ -87,5 +79,4 @@ function mapApiResponses(data, paramToIndex, keys) {
 module.exports = {
     process: process,
     getFlight: getFlight, 
-    caltonPu: caltonPu
 };

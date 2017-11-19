@@ -10,8 +10,11 @@ function getCheckpointWaitTimes(input) {
     var oneYearAgoDate = (todaysDate.getFullYear() - 1).toString() + (todaysDate.getMonth() + 1).toString() + (todaysDate.getDate() < 10 ? "0" + todaysDate.getDate().toString() : todaysDate.getDate().toString());
     var oneWeekAgoDate = sevenDaysAgo.getFullYear().toString() + (sevenDaysAgo.getMonth() + 1).toString() + (sevenDaysAgo.getDate() < 10 ? "0" + sevenDaysAgo.getDate().toString() : sevenDaysAgo.getDate().toString());
 
-    var oneWeekAgo = BASE_URL + 'airports/' + input.weather.airportCode + "/" + oneWeekAgoDate + "/";
-    var oneYearAgo = BASE_URL + 'airports/' + input.weather.airportCode + "/" + oneYearAgoDate + "/";
+    var oneWeekAgo = BASE_URL + 'airports/' + input + "/" + oneWeekAgoDate + "/";
+    var oneYearAgo = BASE_URL + 'airports/' + input + "/" + oneYearAgoDate + "/";
+
+    console.log("ONE WEEK AGO: " + oneWeekAgo);
+    console.log("ONE YEAR AGO: " + oneYearAgo);
 
     var waitTimeResponseArray = [];
 
@@ -22,7 +25,8 @@ function getCheckpointWaitTimes(input) {
             return waitTimeResponseArray;
         });
     }).catch(err => {
-      return defaultValueForCheckpointWaitTimes; 
+        console.log("encountered an error");
+        return null; 
     });
 
 }

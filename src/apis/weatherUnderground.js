@@ -5,8 +5,8 @@ var KEY = '5aaa23a384a79bf8';
 var BASE_URL = 'http://api.wunderground.com/api/' + KEY;
 
 function getWeather(input) {
-    var uri = BASE_URL + '/hourly/q/' + input.weather.airportCode + '.json';
-    var time = input.weather.time; 
+    var uri = BASE_URL + '/hourly/q/' + input.airportCode + '.json';
+    var time = input.time; 
     var options = {
         uri: uri,
         json: true
@@ -45,22 +45,27 @@ function getWeather(input) {
  */
 function calcWeatherDelays(weatherResponse, timeToArrive) {
 
-    var current = new Date();
-    var hours = (timeToArrive - current.getTime()) / (60 * 60 * 1000);
+    //var current = new Date();
+    //var hours = ((timeToArrive * 1000) - current.getTime()) / (60 * 60 * 1000);
+    
+    var hours = 3;
 
-    var originTime = weatherResponse.hourly_forecast[0]["FCTTIME"]["hour"];
-    var destinationTime = weatherResponse.hourly_forecast[hours]["FCTTIME"]["hour"];
-    var originWeather = weatherResponse.hourly_forecast[0]["condition"];
+    //var originTime = weatherResponse.hourly_forecast[0]["FCTTIME"]["hour"];
+    //var destinationTime = weatherResponse.hourly_forecast[hours]["FCTTIME"]["hour"];
+    //var originWeather = weatherResponse.hourly_forecast[0]["condition"];
+    //console.log("current time: " + current.getTime());
+    //console.log("time to arrive: " + timeToArrive);
+    //console.log("HOURS: " + hours);
     var destinationWeather = weatherResponse.hourly_forecast[hours]["condition"];
 
-    var originEffect = getEffectFromCondition(originWeather);
-    var destinationEffect = getEffectFromCondition(destinationWeather);
+    //var originEffect = getEffectFromCondition(originWeather);
+    return destinationEffect = getEffectFromCondition(destinationWeather);
 
-    if (originEffect > destinationWeather) {
-        return originEffect;
-    } else {
-        return destinationEffect;
-    }
+    //if (originEffect > destinationWeather) {
+    //    return originEffect;
+    //} else {
+    //    return destinationEffect;
+    //}
 
 }
 
