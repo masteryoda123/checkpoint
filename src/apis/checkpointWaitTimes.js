@@ -23,9 +23,12 @@ function getCheckpointWaitTimes(input) {
         return getEntriesFor(oneYearAgo).then(yearEntries => {
             waitTimeResponseArray.push(yearEntries);
             return waitTimeResponseArray;
+        }).catch(function(err) {
+          console.log("error fetching checkpoint wait times"); 
+          return null;
         });
     }).catch(err => {
-        console.log("encountered an error");
+        console.log("error fetching checkpoint wait times");
         return null; 
     });
 
@@ -38,10 +41,14 @@ function getEntriesFor(fullUri) {
     };
 
     return getTemporaryApiKey().then(key => {
+        console.log("API KEY FOR CHECKPOINT WAIT TIMES IS: " + key);
         options.qs = {
           api_key: key
         }
+        console.log("fullUri is: " + fullUri);
         return request(options);
+    }).catch(function(err) {
+      console.log("encountered a problem while attempting to get api key for checkpoint wait times");
     });
 }
 
@@ -54,6 +61,7 @@ function getTemporaryApiKey() {
       json: true
     };
 
+    console.log("GETTING TEMP API KEY");
     return request(options);
       
 

@@ -5,7 +5,7 @@ var KEY = '5aaa23a384a79bf8';
 var BASE_URL = 'http://api.wunderground.com/api/' + KEY;
 
 function getWeather(input) {
-    var uri = BASE_URL + '/hourly/q/' + input.airportCode + '.json';
+    var uri = BASE_URL + '/hourly/q/' + input.airportState + '/' + input.airportCode + '.json';
     var time = input.time; 
     var options = {
         uri: uri,
@@ -13,8 +13,15 @@ function getWeather(input) {
     };
 
     return request(options).then(response => {
-        return calcWeatherDelays(response, time)
-    });;
+        try {
+          return calcWeatherDelays(response, time)
+        } catch (err) {
+          console.log("problem parsing weather delay response, return defualt value");
+          return 1.25;
+        }
+    }).catch(function(err) {
+      console.log("problem fetching weather underground api");
+    });
 }
 
 
@@ -49,6 +56,8 @@ function calcWeatherDelays(weatherResponse, timeToArrive) {
     //var hours = ((timeToArrive * 1000) - current.getTime()) / (60 * 60 * 1000);
     
     var hours = 3;
+
+    console.log("weather response: " + weatherResponse);
 
     //var originTime = weatherResponse.hourly_forecast[0]["FCTTIME"]["hour"];
     //var destinationTime = weatherResponse.hourly_forecast[hours]["FCTTIME"]["hour"];

@@ -36,10 +36,11 @@ router.get('/calton', (req, res) => {
             destination: '6000 N Terminal Pkwy, Atlanta, GA'
         }, 
         weather: {
-          airportCode: "ATL", 
+          airportCode: "LAS", 
+          airportState: "NV",
           time: 1509553404000
         }, 
-        waitTimes: "ATL",
+        waitTimes: "LAS",
     };
 
     var flightNumber = 'DL1580';

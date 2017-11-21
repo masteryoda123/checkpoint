@@ -29,6 +29,7 @@ function run(paramToTotalTime, flight) {
 
     console.log("TOTAL TIME IS: " + totalTime);
     console.log("RETURNING: " + (timeToArriveAtGate - (totalTime * multiplier)));
+    console.log("IN PEOPLE TERMS THAT'S: " + formatOutput(timeToArriveAtGate  - (totalTime * millisecondsPerMinute * multiplier))); 
     return formatOutput(timeToArriveAtGate  - (totalTime * millisecondsPerMinute * multiplier)); 
 }
 

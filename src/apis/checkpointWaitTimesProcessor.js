@@ -45,10 +45,13 @@ var _ = require('lodash');
  */
 function getCheckpointWaitTime(waitTimeResponses) {
 
-    if (waitTimeResponses == null) {
+    if (waitTimeResponses == null || waitTimeResponses[0] == undefined || waitTimeResponses[1] == undefined) {
         console.log("RETURNING 30 MINUTES FOR WAIT TIMES BECAUSE RESPONSE WAS NULL");
         return 30;
     }
+    console.log(waitTimeResponses);
+    console.log(waitTimeResponses[0]);
+    console.log(waitTimeResponses[1]);
     /** @type {number[]} */
     var checkpointWaitTimesArray = [];
     waitTimeResponses[0].checkpoints.forEach(checkpointInCheckpoints => {
@@ -63,7 +66,6 @@ function getCheckpointWaitTime(waitTimeResponses) {
     });
 
     return checkpointWaitTimesArray.reduce((sum, nextEntry) => {
-        // console.log("sum is: " + sum);
         return sum + (nextEntry * 10);
     }) / checkpointWaitTimesArray.length;
 }
