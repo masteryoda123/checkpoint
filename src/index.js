@@ -35,7 +35,7 @@ app.use(flash());
 
 
 // Views
-app.use('/static', express.static(__dirname + '/../static'));
+app.use('/static', express.static(__dirname + '/views/static'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
