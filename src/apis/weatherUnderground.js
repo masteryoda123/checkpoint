@@ -12,7 +12,7 @@ function getWeather(input) {
         json: true
     };
 
-    return request(options).then(response => {
+    return request(options).then(function(response) {
         try {
           return calcWeatherDelays(response, time)
         } catch (err) {

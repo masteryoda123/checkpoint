@@ -19,9 +19,9 @@ router.get('/test', function(req, res) {
 router.get('/checkpoint_wait_time', function(req, res) {
     var airport = 'ATL';
 
-    wt.getCheckpointWaitTimes(airport).then(waitTimes => {
+    wt.getCheckpointWaitTimes(airport).then(function(waitTimes) {
         res.send("wait time is: " + wtp.getCheckpointWaitTime(waitTimes).toPrecision(2) + " minutes for " + airport);
-    }).catch(err => {
+    }).catch(function(err) {
         console.log(err);
         res.status(HttpStatus.INTERNAL_SERVER_ERROR);
         res.send("Server error: " + err);
@@ -29,7 +29,7 @@ router.get('/checkpoint_wait_time', function(req, res) {
 
 });
 
-router.get('/calton', (req, res) => {
+router.get('/calton', function(req, res) {
     var input = {
         directions: {
             origin: '120 North Ave NW, Atlanta, GA',
@@ -43,11 +43,12 @@ router.get('/calton', (req, res) => {
         waitTimes: "LAS",
     };
 
-    var flightNumber = 'DL1580';
-
-
+    var flightNumber = {
+        flightNumber: 'DL1580'
+    };
+    
     controller.getFlight(flightNumber).then(function(flight) {
-        input.weather.airportCode = flight.origin.code.slice(1)  ;
+        input.weather.airportCode = flight.origin.code.slice(1);
         input.weather.time = flight.estimated_departure_time.epoch;
         input.waitTimes = flight.origin.code.slice(1);
         console.log("ORIGIN CODE: " + flight.origin);
@@ -57,7 +58,7 @@ router.get('/calton', (req, res) => {
         }).catch(function(err) {
             console.log(err);
             res.status(HttpStatus.INTERNAL_SERVER_ERROR);
-            res.send("Server erro: " + err);
+            res.send("Server error: " + err);
         });
     });
 

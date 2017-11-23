@@ -54,18 +54,19 @@ function getCheckpointWaitTime(waitTimeResponses) {
     console.log(waitTimeResponses[1]);
     /** @type {number[]} */
     var checkpointWaitTimesArray = [];
-    waitTimeResponses[0].checkpoints.forEach(checkpointInCheckpoints => {
-        checkpointInCheckpoints.entries.forEach(entry => {
+    waitTimeResponses[0].checkpoints.forEach(function(checkpointInCheckpoints) {
+        checkpointInCheckpoints.entries.forEach(function(entry) {
             checkpointWaitTimesArray.push(entry.waitTimeNormalized);  
         });
     });
-    waitTimeResponses[1].checkpoints.forEach(checkpointInCheckpoints => {
-        checkpointInCheckpoints.entries.forEach(entry => {
+    waitTimeResponses[1].checkpoints.forEach(function(checkpointInCheckpoints) {
+        checkpointInCheckpoints.entries.forEach(function(entry) {
             checkpointWaitTimesArray.push(entry.waitTimeNormalized);  
         });
     });
 
-    return checkpointWaitTimesArray.reduce((sum, nextEntry) => {
+    return checkpointWaitTimesArray.reduce(function(sum, nextEntry) {
+        // console.log("sum is: " + sum);
         return sum + (nextEntry * 10);
     }) / checkpointWaitTimesArray.length;
 }

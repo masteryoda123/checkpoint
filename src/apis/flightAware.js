@@ -33,7 +33,7 @@ function getFlightInfo(input) {
     };
 
     options.qs = {
-        ident: input
+        ident: input.flightNumber
     };
     console.log("FLIGHT AWARE: " + options.uri);
     return request(options);

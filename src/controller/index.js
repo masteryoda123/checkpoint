@@ -38,6 +38,7 @@ var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
 /**
  * Uses FlightAware API to get flight details, given a flight number
  * @param {FlightNumber} flightNumber
+ * @return {Promise} promise containing flight
  */
 function getFlight(flightNumber) {
     return flightAwareApi.getFlightInfo(flightNumber).then(function(flightInfoResponse) {
