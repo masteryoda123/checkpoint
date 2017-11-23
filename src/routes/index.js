@@ -12,6 +12,11 @@ router.get('/', function(req, res) {
     res.render('index');
 });
 
+router.post('/getEstimate', function(req, res) {
+    console.log(req.body);
+    res.send(req.body);
+});
+
 router.get('/test', function(req, res) {
   res.send("Test Successful");
 });
