@@ -37,12 +37,12 @@ var API_RESULT_TO_TRAVEL_TIME_MAPPERS = {
 
 /**
  * Uses FlightAware API to get flight details, given a flight number
- * @param {FlightNumber} flightNumber
+ * @param {FlightInput} flightInput
  * @return {Promise} promise containing flight
  */
-function getFlight(flightNumber) {
-    return flightAwareApi.getFlightInfo(flightNumber).then(function(flightInfoResponse) {
-        return flightAwareProcessor.getFlightInfo(flightInfoResponse);
+function getFlight(flightInput) {
+    return flightAwareApi.getFlightInfo(flightInput).then(function(flightInfoResponse) {
+        return flightAwareProcessor.getFlightInfo(flightInfoResponse, flightInput.airportCode);
     });
 }
 
@@ -71,7 +71,7 @@ function mapApiResponses(data, paramToIndex, keys) {
         var mapper = API_RESULT_TO_TRAVEL_TIME_MAPPERS[key];
         var dataIndex = paramToIndex[key];
         var apiResponse = data[dataIndex];
-        paramToTotalTime[key] = mapper(apiResponse); 
+        paramToTotalTime[key] = mapper(apiResponse);
     });
     return paramToTotalTime;
 }

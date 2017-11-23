@@ -8,15 +8,16 @@ var BASE_URL = 'http://flightxml.flightaware.com/json/FlightXML3/';
 // WARNING: our key only has 500 calls a month, so please make API calls conservatively
 
 /**
- * @typedef {Object} FlightNumber
+ * @typedef {Object} FlightInput
  * @property {string} flightNumber - Flight Number
+ * @property {string} airportCode - Airport Code
  */
 
 /**
  * Documentation:
  * {@link https://flightaware.com/commercial/flightxml/v3/content.rvt}
  *
- * @param {FlightNumber} input the input containing params for directions API.
+ * @param {FlightInput} input the input containing params for directions API.
  * should contain 'origin' and 'destination', at the very least
  *
  * @returns {Promise} Promise containing flight info object (refer to doc)

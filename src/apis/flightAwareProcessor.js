@@ -30,15 +30,37 @@ var _ = require('lodash');
  * {@link https://flightaware.com/commercial/flightxml/v3/content.rvt}
  *
  * @param {FlightInfoResponse} flightInfoResponse - flightInfoResponse from FlightAware
+ * @param {string} airportCode - Origin Airport Code
  * @returns {Flight} flightInfo
  */
-function getFlightInfo(flightInfoResponse) {
+function getFlightInfo(flightInfoResponse, airportCode) {
     if (flightInfoResponse.error) {
         throw new Error(flightInfoResponse.error);
     }
 
+    console.log('flightInfoResponse');
+    console.log(flightInfoResponse);
+    /** @type {Flight[]} */
+    var flights = flightInfoResponse.FlightInfoStatusResult.flights;
+    /** @type {Flight[]} */
+    var relevantFlights = flights.filter(function(flight) {
+        /** @type {number} */
+        var now = (new Date()).getTime() / 1000;
+        return now < flight.estimated_departure_time.epoch &&
+            flight.origin.code.toLowerCase().includes(airportCode.toLowerCase());
+    });
+    console.log('flights');
+    console.log(flights);
+    console.log('relevantFlights');
+    console.log(relevantFlights);
+    if (relevantFlights.length <= 0) {
+        throw new Error('Flight not found for the given flight and airport code');
+    }
+    relevantFlights.sort(function(flight1, flight2) {
+        return flight1.estimated_departure_time.epoch - flight2.estimated_departure_time.epoch;
+    });
     /** @type {Flight} */
-    var flight = flightInfoResponse.FlightInfoStatusResult.flights[0];
+    var flight = relevantFlights[0];
     return flight;
 }
 

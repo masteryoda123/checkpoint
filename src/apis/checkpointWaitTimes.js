@@ -58,7 +58,8 @@ function getTemporaryApiKey() {
     var options = {
       method: 'POST',
       uri: uri,
-      json: true
+      json: true,
+        timeout: 2000
     };
 
     console.log("GETTING TEMP API KEY");

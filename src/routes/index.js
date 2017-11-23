@@ -14,7 +14,47 @@ router.get('/', function(req, res) {
 
 router.post('/getEstimate', function(req, res) {
     console.log(req.body);
-    res.send(req.body);
+    var body = req.body;
+    var flightInput = {
+        flightNumber: body.flightNumber,
+        airportCode: body.airportCode
+    };
+    
+    var address = body.streetAddress + ', ' + body.city + ', ' + body.state + ' ' + body.zip;
+    
+    var input = {
+        directions: {
+            origin: address,
+            destination: null
+        }, 
+        weather: {
+          airportCode: null,
+          airportState: body.state,
+          time: null
+        }, 
+        waitTimes: null
+    };
+
+    controller.getFlight(flightInput).then(function(flight) {
+        console.log('FLIGHT');
+        console.log(flight);
+        input.directions.destination = flight.origin.code;
+        input.weather.airportCode = flight.origin.code.slice(1);
+        input.weather.time = flight.estimated_departure_time.epoch;
+        input.waitTimes = flight.origin.code.slice(1);
+        console.log("ORIGIN CODE: " + flight.origin);
+        console.log(flight.origin);
+        controller.process(input, flight).then(function(timeToLeave) {
+            res.status(HttpStatus.OK);
+            res.send("YOU SHOULD LEAVE AT: " + timeToLeave);
+        }).catch(function(err) {
+            throw err;
+        });
+    }).catch(function(err) {
+        console.log(err);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        res.send("Server error: " + err);
+    });
 });
 
 router.get('/test', function(req, res) {
@@ -99,7 +139,7 @@ router.get('/maps', function(req, res) {
     var input = {
         directions: {
             origin: '120 North Ave NW, Atlanta, GA',
-            destination: '1111 Mecaslin St NW, Atlanta, GA'
+            destination: 'KATL'
         }
     };
     

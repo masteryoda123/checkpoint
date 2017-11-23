@@ -26,15 +26,23 @@ var _ = require('lodash');
  * @returns {number} minimum travel time in minutes among all possible routes
  */
 function getTotalTimeFromDirections(directionResponse) {
+    console.log('directionResponse');
+    console.log(directionResponse);
     var routes = directionResponse.routes;
+    console.log('routes');
+    console.log(routes);
     var totalTimes = routes.map(function(route) {
+        console.log('route');
+        console.log(route);
         var totalTime = route.legs.reduce(function(runningSum, leg) {
+            console.log('leg');
+            console.log(leg);
             return runningSum + leg.duration.value;
         }, 0);
         return totalTime;
     });
 
-    return _.min(totalTimes);
+    return _.min(totalTimes) / 60;
 }
 
 module.exports = {

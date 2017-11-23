@@ -2,6 +2,8 @@ var millisecondsPerMinute = 60 * 1000;
 var fourtyFiveMinutes = 45 * millisecondsPerMinute;
 
 function run(paramToTotalTime, flight) {
+    console.log('paramToTotalTime');
+    console.log(paramToTotalTime);
     var keys = Object.keys(paramToTotalTime);
     var totalTime;
     var timeToArriveAtGate = (flight.estimated_departure_time.epoch * 1000) - fourtyFiveMinutes;
@@ -9,7 +11,7 @@ function run(paramToTotalTime, flight) {
     console.log("IN PEOPLE TIME, THAT'S: " + formatOutput(flight.estimated_departure_time.epoch * 1000));
     console.log("TIME TO ARRIVE AT GATE IS: " + timeToArriveAtGate);
     console.log("IN PEOPLE TIME, THAT'S: " + formatOutput(timeToArriveAtGate));
-    var multiplier;
+    var multiplier = 1;
 
     // TODO: for now, we're just adding all events up. Incomplete implementation
     totalTime = keys.reduce(function(runningSum, key) {
@@ -28,7 +30,7 @@ function run(paramToTotalTime, flight) {
     }, 0);
 
     console.log("TOTAL TIME IS: " + totalTime);
-    console.log("RETURNING: " + (timeToArriveAtGate - (totalTime * multiplier)));
+    console.log("RETURNING: " + (timeToArriveAtGate - (totalTime * millisecondsPerMinute * multiplier)));
     console.log("IN PEOPLE TERMS THAT'S: " + formatOutput(timeToArriveAtGate  - (totalTime * millisecondsPerMinute * multiplier))); 
     return formatOutput(timeToArriveAtGate  - (totalTime * millisecondsPerMinute * multiplier)); 
 }
