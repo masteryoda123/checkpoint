@@ -40,11 +40,13 @@ router.post('/getEstimate', function(req, res) {
     };
     
     var address = body.streetAddress + ', ' + body.city + ', ' + body.state + ' ' + body.zip;
+    var transportMode = body.drive ? 'driving' : body.transit ? 'transit' : 'walking';
     
     var input = {
         directions: {
             origin: address,
-            destination: null
+            destination: null,
+            mode: transportMode
         }, 
         weather: {
           airportCode: null,

@@ -7,6 +7,7 @@ var BASE_URL = 'https://maps.googleapis.com/maps/api/';
  * @typedef {Object} Direction
  * @property {string} origin - origin address
  * @property {string} destination - destination address
+ * @property {string} mode - transportation mode
  */
 
 /**
@@ -28,6 +29,7 @@ function getDirections(input) {
     options.qs = {
         origin: input.origin,
         destination: input.destination,
+        mode: input.mode || 'driving',
         key: KEY
     };
 
