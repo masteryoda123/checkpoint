@@ -132,7 +132,18 @@ function getEffectFromCondition(weatherCondition) {
     return noEffect;
 }
 
+/**
+ * Not implemented
+ *
+ * @param weatherResponse
+ * @return {Object} object containing necessary data for the UI
+ */
+function getDataForUI(weatherResponse) {
+    return null;
+}
+
 
 module.exports = {
-    calcWeatherDelays: calcWeatherDelays
+    calcWeatherDelays: calcWeatherDelays,
+    getDataForUI: getDataForUI
 };

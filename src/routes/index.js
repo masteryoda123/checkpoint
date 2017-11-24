@@ -12,8 +12,27 @@ router.get('/', function(req, res) {
     res.render('index');
 });
 
+router.get('/estimationResult', function(req, res) {
+    var data = {
+        flightNumber: 'DL1053',
+        airportOriginCode: 'ATL',
+        airportOriginCity: 'Atlanta',
+        airportOriginName: 'Hartsfield Jackson Intl',
+        airportDestinationCode: 'LAX',
+        airportDestinationCity: 'Los Angeles',
+        airportDestinationName: 'Los Angeles Intl',
+        estimatedDepartureTime: new Date(1511561340000),
+        filedDepartureTime: new Date(1511561040000),
+        departureDelay: 300 / 60,
+        checkpointWaitTime: 10,
+        estimatedTravelTime: 25,
+        estimatedLeaveTime: '2017-11-24T20:59:13.062Z'
+    };
+    res.status(HttpStatus.OK);
+    res.render('estimationResult', data);
+});
+
 router.post('/getEstimate', function(req, res) {
-    console.log(req.body);
     var body = req.body;
     var flightInput = {
         flightNumber: body.flightNumber,
@@ -36,17 +55,30 @@ router.post('/getEstimate', function(req, res) {
     };
 
     controller.getFlight(flightInput).then(function(flight) {
-        console.log('FLIGHT');
-        console.log(flight);
         input.directions.destination = flight.origin.code;
         input.weather.airportCode = flight.origin.code.slice(1);
         input.weather.time = flight.estimated_departure_time.epoch;
         input.waitTimes = flight.origin.code.slice(1);
-        console.log("ORIGIN CODE: " + flight.origin);
-        console.log(flight.origin);
-        controller.process(input, flight).then(function(timeToLeave) {
+        controller.process(input, flight).then(function(output) {
+            console.log(output);
+            var dataForUI = output.dataForUI;
+            var data = {
+                flightNumber: flight.ident,
+                airportOriginCode: flight.origin.code.slice(1),
+                airportOriginCity: flight.origin.city,
+                airportOriginName: flight.origin.airport_name,
+                airportDestinationCode: flight.destination.code.slice(1),
+                airportDestinationCity: flight.destination.city,
+                airportDestinationName: flight.destination.airport_name,
+                estimatedDepartureTime: new Date(flight.estimated_departure_time.epoch * 1000),
+                filedDepartureTime: new Date(flight.filed_departure_time.epoch * 1000),
+                departureDelay: Math.round(flight.departure_delay / 60),
+                checkpointWaitTime: Math.round(dataForUI.waitTimes.checkpointWaitTime),
+                estimatedTravelTime: Math.round(dataForUI.directions.travelTime),
+                estimatedLeaveTime: output.estimatedLeaveTime
+            };
             res.status(HttpStatus.OK);
-            res.send("YOU SHOULD LEAVE AT: " + timeToLeave);
+            res.render('estimationResult', data);
         }).catch(function(err) {
             throw err;
         });

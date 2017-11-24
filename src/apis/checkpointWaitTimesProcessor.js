@@ -71,6 +71,21 @@ function getCheckpointWaitTime(waitTimeResponses) {
     }) / checkpointWaitTimesArray.length;
 }
 
+/**
+ * This process API result directions returned by Whats Busy
+ * checkpoint API to get the relevant data to be displayed in
+ * the UI
+ *
+ * @param waitTimeResponse
+ * @return {Object} object containing necessary data for the UI
+ */
+function getDataForUI(waitTimeResponse) {
+    return {
+        checkpointWaitTime: getCheckpointWaitTime(waitTimeResponse)
+    };
+}
+
 module.exports = {
-    getCheckpointWaitTime: getCheckpointWaitTime
+    getCheckpointWaitTime: getCheckpointWaitTime,
+    getDataForUI: getDataForUI
 };

@@ -45,6 +45,22 @@ function getTotalTimeFromDirections(directionResponse) {
     return _.min(totalTimes) / 60;
 }
 
+/**
+ * This process API result directions returned by Google Maps
+ * directions API to get the relevant data to be displayed in
+ * the UI
+ *
+ * @param directionResponse
+ * @return {Object} object containing necessary data for the UI
+ */
+function getDataForUI(directionResponse) {
+    var output = {
+        travelTime: getTotalTimeFromDirections(directionResponse)
+    };
+    return output;
+}
+
 module.exports = {
-    getTotalTimeFromDirections: getTotalTimeFromDirections
+    getTotalTimeFromDirections: getTotalTimeFromDirections,
+    getDataForUI: getDataForUI
 };
