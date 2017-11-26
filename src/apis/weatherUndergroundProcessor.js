@@ -25,24 +25,26 @@ var _ = require('lodash');
  * @param {DirectionResponse} directionResponse directions response
  * @returns {number} minimum travel time in minutes among all possible routes
  */
-function calcWeatherDelays(weatherResponse, timeToArrive) {
+function calcWeatherDelays(time) {
 
-    var current = new Date();
-    var hours = (timeToArrive - current.getTime()) / (60 * 60 * 1000);
-
-    var originTime = weatherResponse.hourly_forecast[0]["FCTTIME"]["hour"];
-    var destinationTime = weatherResponse.hourly_forecast[hours]["FCTTIME"]["hour"];
-    var originWeather = weatherResponse.hourly_forecast[0]["condition"];
-    var destinationWeather = weatherResponse.hourly_forecast[hours]["condition"];
-
-    var originEffect = getEffectFromCondition(originWeather);
-    var destinationEffect = getEffectFromCondition(destinationWeather);
-
-    if (originEffect > destinationWeather) {
-        return originEffect;
-    } else {
-        return destinationEffect;
-    }
+//    var current = new Date();
+//    var hours = (timeToArrive - current.getTime()) / (60 * 60 * 1000);
+//
+//    var originTime = weatherResponse.hourly_forecast[0]["FCTTIME"]["hour"];
+//    var destinationTime = weatherResponse.hourly_forecast[hours]["FCTTIME"]["hour"];
+//    var originWeather = weatherResponse.hourly_forecast[0]["condition"];
+//    var destinationWeather = weatherResponse.hourly_forecast[hours]["condition"];
+//
+//    var originEffect = getEffectFromCondition(originWeather);
+//    var destinationEffect = getEffectFromCondition(destinationWeather);
+//
+//    if (originEffect > destinationWeather) {
+//        return originEffect;
+//    } else {
+//        return destinationEffect;
+//    }
+//
+    return time;
 
 }
 
@@ -130,7 +132,18 @@ function getEffectFromCondition(weatherCondition) {
     return noEffect;
 }
 
+/**
+ * Not implemented
+ *
+ * @param weatherResponse
+ * @return {Object} object containing necessary data for the UI
+ */
+function getDataForUI(weatherResponse) {
+    return null;
+}
+
 
 module.exports = {
-    calcWeatherDelays: calcWeatherDelays
+    calcWeatherDelays: calcWeatherDelays,
+    getDataForUI: getDataForUI
 };
