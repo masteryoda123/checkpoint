@@ -41,8 +41,8 @@ router.post('/getEstimate', function(req, res) {
     
     var address = body.streetAddress + ', ' + body.city + ', ' + body.state + ' ' + body.zip;
     var transportMode = body.transit ? 'transit' : body.walking ? 'walking' : 'driving';
-    var checkIn = body.deskCheckIn ? true : false;
-    var baggage = body.baggage ? true : false;
+    var checkIn = body.onlineCheckIn ? false : true;
+    var baggage = body.noBaggage ? false : true;
     
     var input = {
         directions: {
@@ -83,9 +83,10 @@ router.post('/getEstimate', function(req, res) {
                 departureDelay: Math.round(flight.departure_delay / 60),
                 checkpointWaitTime: Math.round(dataForUI.waitTimes.checkpointWaitTime),
                 estimatedTravelTime: Math.round(dataForUI.directions.travelTime),
-                estimatedLeaveTime: output.estimatedLeaveTime
+                estimatedLeaveTime: output.estimatedLeaveTime,
+                baggage: baggage ? 'Yes' : 'No',
+                checkIn: checkIn ? 'Desk' : 'Online'
             };
-            console.log(input);
             res.status(HttpStatus.OK);
             res.render('estimationResult', data);
         }).catch(function(err) {
