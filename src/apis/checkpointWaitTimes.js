@@ -1,4 +1,5 @@
 var request = require('request-promise');
+var q = require('q');
 
 var BASE_URL = 'http://airports.whatsbusy.com/service/';
 var defaultValueForCheckpointWaitTimes = 30;
@@ -10,27 +11,59 @@ function getCheckpointWaitTimes(input) {
     var oneYearAgoDate = (todaysDate.getFullYear() - 1).toString() + (todaysDate.getMonth() + 1).toString() + (todaysDate.getDate() < 10 ? "0" + todaysDate.getDate().toString() : todaysDate.getDate().toString());
     var oneWeekAgoDate = sevenDaysAgo.getFullYear().toString() + (sevenDaysAgo.getMonth() + 1).toString() + (sevenDaysAgo.getDate() < 10 ? "0" + sevenDaysAgo.getDate().toString() : sevenDaysAgo.getDate().toString());
 
-    var oneWeekAgo = BASE_URL + 'airports/' + input + "/" + oneWeekAgoDate + "/";
-    var oneYearAgo = BASE_URL + 'airports/' + input + "/" + oneYearAgoDate + "/";
+    var oneWeekAgoUri = BASE_URL + 'airports/' + input + "/" + oneWeekAgoDate + "/";
+    var oneYearAgoUri = BASE_URL + 'airports/' + input + "/" + oneYearAgoDate + "/";
 
-    console.log("ONE WEEK AGO: " + oneWeekAgo);
-    console.log("ONE YEAR AGO: " + oneYearAgo);
+    console.log("ONE WEEK AGO: " + oneWeekAgoUri);
+    console.log("ONE YEAR AGO: " + oneYearAgoUri);
 
     var waitTimeResponseArray = [];
+    
 
-    return getEntriesFor(oneWeekAgo).then(function(weekEntries) {
-        waitTimeResponseArray.push(weekEntries);
-        return getEntriesFor(oneYearAgo).then(function(yearEntries) {
-            waitTimeResponseArray.push(yearEntries);
-            return waitTimeResponseArray;
+    return getTemporaryApiKey().then(function(key) {
+        console.log("API KEY FOR CHECKPOINT WAIT TIMES IS: " + key);
+        var optionsYearAgo = {
+            uri: oneYearAgoUri,
+            json: true,
+            qs: {
+                api_key: key
+            }
+        };
+        var optionsWeekAgo = {
+            uri: oneWeekAgoUri,
+            json: true,
+            qs: {
+                api_key: key
+            }
+        };
+        var promises = [];
+        promises.push(request(optionsWeekAgo));
+        promises.push(request(optionsYearAgo));
+        return q.all(promises).then(function(data) {
+            return data;
         }).catch(function(err) {
-          console.log("error fetching checkpoint wait times"); 
-          return null;
+            console.log(err);
+            return null;
         });
     }).catch(function(err) {
-        console.log("encountered an error");
-        return null; 
+        console.log(err);
+      console.log("encountered a problem while attempting to get api key for checkpoint wait times");
+        return null;
     });
+
+    // return getEntriesFor(oneWeekAgo).then(function(weekEntries) {
+    //     waitTimeResponseArray.push(weekEntries);
+    //     return getEntriesFor(oneYearAgo).then(function(yearEntries) {
+    //         waitTimeResponseArray.push(yearEntries);
+    //         return waitTimeResponseArray;
+    //     }).catch(function(err) {
+    //       console.log("error fetching checkpoint wait times"); 
+    //       return null;
+    //     });
+    // }).catch(function(err) {
+    //     console.log("encountered an error");
+    //     return null; 
+    // });
 
 }
 

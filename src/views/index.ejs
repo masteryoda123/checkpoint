@@ -17,7 +17,7 @@
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browserhappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="center">
-        <h1 class="text-center">Welcome to Checkpoint&trade;</h1>
+        <h1 class="text-center top-bottom-margin-lg">Welcome to Checkpoint&trade;</h1>
         <div class="container width-md">
             <form action="getEstimate" method="post">
                 <input type="text" name="flightNumber" class="form-control top-bottom-margin-sm center" placeholder="Flight Number (e.g. DL1234)" autofocus />
@@ -26,18 +26,17 @@
                 <input type="text" name="city" class="form-control top-bottom-margin-sm center" placeholder="City" />
                 <input type="text" name="state" class="form-control top-bottom-margin-sm center" placeholder="State" />
                 <input type="text" name="zip" class="form-control top-bottom-margin-sm center" placeholder="Zip Code" />
-                Transportation Mode:
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-primary">
-                        <input type="radio" name="drive" id="option1" autocomplete="off"> Drive/Uber/Lyft
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="transit" id="option2" autocomplete="off"> Transit
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="walk" id="option3" autocomplete="off"> Walk
-                    </label>
-                </div>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="driving" id="option1" autocomplete="off"> Drive/Uber/Lyft
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="transit" id="option2" autocomplete="off"> Transit
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="walking" id="option3" autocomplete="off"> Walk
+                        </label>
+                    </div>
                 <button type="submit" class="btn btn-lg btn-primary btn-block top-bottom-margin-sm center">Get Estimate</button>
             </form>
         </div>
