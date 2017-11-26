@@ -8,6 +8,7 @@ var BASE_URL = 'https://maps.googleapis.com/maps/api/';
  * @property {string} origin - origin address
  * @property {string} destination - destination address
  * @property {string} mode - transportation mode
+ * @property {number} arrivalTime - timestamp for arrival time
  */
 
 /**
@@ -30,6 +31,7 @@ function getDirections(input) {
         origin: input.origin,
         destination: input.destination,
         mode: input.mode || 'driving',
+        arrival_time: input.arrivalTime,
         key: KEY
     };
 

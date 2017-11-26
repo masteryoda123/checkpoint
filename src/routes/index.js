@@ -60,6 +60,7 @@ router.post('/getEstimate', function(req, res) {
         input.directions.destination = flight.origin.code;
         input.weather.airportCode = flight.origin.code.slice(1);
         input.weather.time = flight.estimated_departure_time.epoch;
+        input.directions.arrivalTime = flight.estimated_departure_time.epoch - (45 * 60);
         input.waitTimes = flight.origin.code.slice(1);
         controller.process(input, flight).then(function(output) {
             var dataForUI = output.dataForUI;
@@ -108,7 +109,7 @@ router.get('/checkpoint_wait_time', function(req, res) {
 
 });
 
-router.get('/calton', function(req, res) {
+router.get('/integrationTest', function(req, res) {
     var input = {
         directions: {
             origin: '120 North Ave NW, Atlanta, GA',
@@ -130,6 +131,7 @@ router.get('/calton', function(req, res) {
         input.weather.airportCode = flight.origin.code.slice(1);
         input.weather.time = flight.estimated_departure_time.epoch;
         input.waitTimes = flight.origin.code.slice(1);
+        input.directions.arrivalTime = flight.estimated_departure_time.epoch - (45 * 60);
         console.log("ORIGIN CODE: " + flight.origin);
         controller.process(input, flight).then(function(timeToLeave) {
             res.status(HttpStatus.OK);
