@@ -53,7 +53,7 @@ function getFlight(flightInput) {
 }
 
 
-function process(input, flight) {
+function process(input, flight, checkIn, baggage) {
     var promises = [];
     var paramToIndex = {};
     var keys = Object.keys(input);
@@ -65,7 +65,7 @@ function process(input, flight) {
 
     return q.all(promises).then(function(data) {
         var mappedResponses = mapApiResponses(data, paramToIndex, keys);
-        var estimatedLeaveTime = engine.run(mappedResponses.paramToTotalTime, flight);
+        var estimatedLeaveTime = engine.run(mappedResponses.paramToTotalTime, flight, checkIn, baggage);
         return {
             estimatedLeaveTime: estimatedLeaveTime,
             dataForUI: mappedResponses.dataForUI

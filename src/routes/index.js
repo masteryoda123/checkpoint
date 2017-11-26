@@ -41,6 +41,8 @@ router.post('/getEstimate', function(req, res) {
     
     var address = body.streetAddress + ', ' + body.city + ', ' + body.state + ' ' + body.zip;
     var transportMode = body.transit ? 'transit' : body.walking ? 'walking' : 'driving';
+    var checkIn = body.deskCheckIn ? true : false;
+    var baggage = body.baggage ? true : false;
     
     var input = {
         directions: {
@@ -53,7 +55,10 @@ router.post('/getEstimate', function(req, res) {
           airportState: body.state,
           time: null
         }, 
-        waitTimes: null
+        waitTimes: {
+            waitTime: null,
+            flightDateTime: null
+        }
     };
 
     controller.getFlight(flightInput).then(function(flight) {
@@ -61,8 +66,9 @@ router.post('/getEstimate', function(req, res) {
         input.weather.airportCode = flight.origin.code.slice(1);
         input.weather.time = flight.estimated_departure_time.epoch;
         input.directions.arrivalTime = flight.estimated_departure_time.epoch - (45 * 60);
-        input.waitTimes = flight.origin.code.slice(1);
-        controller.process(input, flight).then(function(output) {
+        input.waitTimes.waitTime = flight.origin.code.slice(1);
+        input.waitTimes.flightDate = new Date((flight.estimated_departure_time.epoch - (45 * 60)) * 1000);
+        controller.process(input, flight, checkIn, baggage).then(function(output) {
             var dataForUI = output.dataForUI;
             var data = {
                 flightNumber: flight.ident,

@@ -26,17 +26,34 @@
                 <input type="text" name="city" class="form-control top-bottom-margin-sm center" placeholder="City" />
                 <input type="text" name="state" class="form-control top-bottom-margin-sm center" placeholder="State" />
                 <input type="text" name="zip" class="form-control top-bottom-margin-sm center" placeholder="Zip Code" />
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="driving" id="option1" autocomplete="off"> Drive/Uber/Lyft
-                        </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="transit" id="option2" autocomplete="off"> Transit
-                        </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="walking" id="option3" autocomplete="off"> Walk
-                        </label>
-                    </div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="driving" id="driving" autocomplete="off"> Drive/Uber/Lyft
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="transit" id="transit" autocomplete="off"> Transit
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="walking" id="walking" autocomplete="off"> Walk
+                    </label>
+                </div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="onlineCheckIn" id="onlineCheckIn" autocomplete="off">Online Check-in
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="deskCheckIn" id="deskCheckIn" autocomplete="off">Desk Check-in
+                    </label>
+                </div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="baggage" id="baggage" autocomplete="off">Baggage
+                    </label>
+                    <label class="btn btn-secondary">
+                        <input type="radio" name="noBaggage" id="noBaggage" autocomplete="off">No Baggage
+                    </label>
+                </div>
+
                 <button type="submit" class="btn btn-lg btn-primary btn-block top-bottom-margin-sm center">Get Estimate</button>
             </form>
         </div>

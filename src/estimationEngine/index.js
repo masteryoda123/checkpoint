@@ -1,12 +1,21 @@
 var millisecondsPerMinute = 60 * 1000;
-var seventyFiveMinutes = 75 * millisecondsPerMinute;
+var sixtyMinutes = 60 * millisecondsPerMinute;
+var fifteenMinutes = 15 * millisecondsPerMinute;
+var tenMinutes = 10 * millisecondsPerMinute;
 
-function run(paramToTotalTime, flight) {
+function run(paramToTotalTime, flight, checkIn, baggage) {
+    var constantTimeAddition = sixtyMinutes;
+    if (checkIn) {
+      constantTimeAddition += fifteenMinutes;
+    }
+    if (baggage) {
+      constantTimeAddition += tenMinutes;
+    }
     console.log('paramToTotalTime');
     console.log(paramToTotalTime);
     var keys = Object.keys(paramToTotalTime);
     var totalTime;
-    var timeToArriveAtGate = (flight.estimated_departure_time.epoch * 1000) - seventyFiveMinutes;
+    var timeToArriveAtGate = (flight.estimated_departure_time.epoch * 1000) - constantTimeAddition;
     console.log("EST DEPARTURE TIME IS: " + (flight.estimated_departure_time.epoch * 1000));
     console.log("IN PEOPLE TIME, THAT'S: " + formatOutput(flight.estimated_departure_time.epoch * 1000));
     console.log("TIME TO ARRIVE AT GATE IS: " + timeToArriveAtGate);

@@ -4,15 +4,37 @@ var q = require('q');
 var BASE_URL = 'http://airports.whatsbusy.com/service/';
 var defaultValueForCheckpointWaitTimes = 30;
 
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+/**
+ * This converts a JavaScript date into a string of acceptable
+ * format by checkpoint API
+ * 
+ * @param date {Date} date to convert
+ * @returns {string} formatted date string for checkpoint API
+ */
+function dateToString(date) {
+    return '' + date.getFullYear() + pad(date.getMonth() + 1, 2) + pad(date.getDate(), 2) + 'T' + pad(date.getHours(), 2) +
+      pad(date.getMinutes(), 2) + pad(date.getSeconds());
+}
+
 function getCheckpointWaitTimes(input) {
-    var todaysDate = new Date();
-    var sevenDaysAgo = new Date((todaysDate.getTime() - (60 * 60 * 24 * 7 * 1000)));
+    var flightDate = input.flightDate;
+    // var sevenDaysAgo = new Date((todaysDate.getTime() - (60 * 60 * 24 * 7 * 1000)));
+    var sevenDaysAgoMilliseconds = 60 * 60 * 24 * 7 * 1000;
+    var aYearAgoMilliseconds = 60 * 60 * 24 * 365 * 1000;
 
-    var oneYearAgoDate = (todaysDate.getFullYear() - 1).toString() + (todaysDate.getMonth() + 1).toString() + (todaysDate.getDate() < 10 ? "0" + todaysDate.getDate().toString() : todaysDate.getDate().toString());
-    var oneWeekAgoDate = sevenDaysAgo.getFullYear().toString() + (sevenDaysAgo.getMonth() + 1).toString() + (sevenDaysAgo.getDate() < 10 ? "0" + sevenDaysAgo.getDate().toString() : sevenDaysAgo.getDate().toString());
+    // var oneYearAgoDate = (todaysDate.getFullYear() - 1).toString() + (todaysDate.getMonth() + 1).toString() + (todaysDate.getDate() < 10 ? "0" + todaysDate.getDate().toString() : todaysDate.getDate().toString()) + 'T' + input.flightDateTime.getHours() + ;
+    // var oneWeekAgoDate = sevenDaysAgo.getFullYear().toString() + (sevenDaysAgo.getMonth() + 1).toString() + (sevenDaysAgo.getDate() < 10 ? "0" + sevenDaysAgo.getDate().toString() : sevenDaysAgo.getDate().toString());
+    var oneYearAgoDate = dateToString(new Date(flightDate.getTime() - aYearAgoMilliseconds));
+    var oneWeekAgoDate = dateToString(new Date(flightDate.getTime() - sevenDaysAgoMilliseconds));
 
-    var oneWeekAgoUri = BASE_URL + 'airports/' + input + "/" + oneWeekAgoDate + "/";
-    var oneYearAgoUri = BASE_URL + 'airports/' + input + "/" + oneYearAgoDate + "/";
+    var oneWeekAgoUri = BASE_URL + 'airports/' + input.waitTime + "/" + oneWeekAgoDate + "/";
+    var oneYearAgoUri = BASE_URL + 'airports/' + input.waitTime + "/" + oneYearAgoDate + "/";
 
     console.log("ONE WEEK AGO: " + oneWeekAgoUri);
     console.log("ONE YEAR AGO: " + oneYearAgoUri);
