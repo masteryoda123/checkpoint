@@ -18,7 +18,7 @@
         <h1 class="text-center">Estimation Results by Checkpoint&trade;</h1>
         <div class="container width-md">
             <h3>You should leave by</h3>
-            <h2 class="timestamp"><%= estimatedLeaveTime %></h2>
+            <h2 id="timestamp1"><%= estimatedLeaveTime %></h2>
             <table class="table">
                 <tbody>
                 <tr>
@@ -35,11 +35,11 @@
                 </tr>
                 <tr>
                     <td>Scheduled Departure Time</td>
-                    <td class="timestamp"><%= filedDepartureTime %></td>
+                    <td id="timestamp2"><%= filedDepartureTime %></td>
                 </tr>
                 <tr>
                     <td>Estimated Departure Time</td>
-                    <td class="timestamp"><%= estimatedDepartureTime %></td>
+                    <td id="timestamp3"><%= estimatedDepartureTime %></td>
                 </tr>
                 <tr>
                     <td>Delay</td>
@@ -72,12 +72,15 @@
 
 </body>
 <script type="text/javascript">
-    // var timestamp = document.getElementById('estimatedTime');
-    var timestamps = document.getElementsByClassName('timestamp');
-    timestamps.forEach(function(timestamp) {
-        var mydate = new Date(timestamp.innerHTML);
-        timestamp.innerHTML = new Date(mydate);
-    });
+    var timestamp1 = document.getElementById('timestamp1');
+    var timestamp2 = document.getElementById('timestamp2');
+    var timestamp3 = document.getElementById('timestamp3');
+    var mydate1 = new Date(timestamp1.innerHTML);
+    var mydate2 = new Date(timestamp2.innerHTML);
+    var mydate3 = new Date(timestamp3.innerHTML);
+    timestamp1.innerHTML = new Date(mydate1);
+    timestamp2.innerHTML = new Date(mydate2);
+    timestamp3.innerHTML = new Date(mydate3);
 </script>
 </html>
 
