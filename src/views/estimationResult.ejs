@@ -18,7 +18,7 @@
         <h1 class="text-center">Estimation Results by Checkpoint&trade;</h1>
         <div class="container width-md">
             <h3>You should leave by</h3>
-            <h2 id="estimatedTime"><%= estimatedLeaveTime %></h2>
+            <h2 class="timestamp"><%= estimatedLeaveTime %></h2>
             <table class="table">
                 <tbody>
                 <tr>
@@ -35,11 +35,11 @@
                 </tr>
                 <tr>
                     <td>Scheduled Departure Time</td>
-                    <td><%= filedDepartureTime %></td>
+                    <td class="timestamp"><%= filedDepartureTime %></td>
                 </tr>
                 <tr>
                     <td>Estimated Departure Time</td>
-                    <td><%= estimatedDepartureTime %></td>
+                    <td class="timestamp"><%= estimatedDepartureTime %></td>
                 </tr>
                 <tr>
                     <td>Delay</td>
@@ -72,9 +72,12 @@
 
 </body>
 <script type="text/javascript">
-    var timestamp = document.getElementById('estimatedTime')
-    var mydate = new Date(timestamp.innerHTML);
-    timestamp.innerHTML = new Date(mydate);
+    // var timestamp = document.getElementById('estimatedTime');
+    var timestamps = document.getElementsByClassName('timestamp');
+    timestamps.forEach(function(timestamp) {
+        var mydate = new Date(timestamp.innerHTML);
+        timestamp.innerHTML = new Date(mydate);
+    });
 </script>
 </html>
 
