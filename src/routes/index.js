@@ -35,7 +35,7 @@ router.get('/estimationResult', function(req, res) {
 router.post('/getEstimate', function(req, res) {
     var body = req.body;
     var flightInput = {
-        flightNumber: body.flightNumber,
+        flightNumber: body.flightNumber.replace(/\s/g, "").toUpperCase(),
         airportCode: body.airportCode
     };
     
