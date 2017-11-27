@@ -72,8 +72,9 @@
 
 </body>
 <script type="text/javascript">
-    var timestamp = document.getElementById('estimatedTime');
-    timestamp.innerHTML = new Date(timestamp);
+    var timestamp = document.getElementById('estimatedTime')
+    var mydate = new Date(timestamp.innerHTML);
+    timestamp.innerHTML = new Date(mydate);
 </script>
 </html>
 
