@@ -18,7 +18,7 @@
         <h1 class="text-center">Estimation Results by Checkpoint&trade;</h1>
         <div class="container width-md">
             <h3>You should leave by</h3>
-            <h2><%= estimatedLeaveTime %></h2>
+            <h2 id="estimatedTime"><%= estimatedLeaveTime %></h2>
             <table class="table">
                 <tbody>
                 <tr>
@@ -69,6 +69,11 @@
         </div>
     </div>
 
+
 </body>
+<script type="text/javascript">
+    var timestamp = document.getElementById('estimatedTime');
+    timestamp.innerHTML = new Date(timestamp);
+</script>
 </html>
 
