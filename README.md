@@ -1,6 +1,7 @@
 # Checkpoint&trade;
 Be on point. Use checkpoint.
 
+http://checkpoint-app.herokuapp.com/
 
 ## Development
 
